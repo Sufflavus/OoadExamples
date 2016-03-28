@@ -1,8 +1,15 @@
-﻿namespace RickStore.StoreBusinessLogic
+﻿using RickStore.StoreBusinessLogic.Enums;
+
+namespace RickStore.StoreBusinessLogic
 {
     public sealed class Guitar
     {
-        public Guitar(string serialNumber, double price, string builder, string model, string type, string backWood, string topWood)
+        public override string ToString()
+        {
+            return $"SerialNumber: {SerialNumber}, Price: {Price}, Builder: {Builder}, Model: {Model}, Type: {Type}, BackWood: {BackWood}, TopWood: {TopWood}";
+        }
+
+        public Guitar(string serialNumber, double price, Builder? builder, string model, GuitarType? type, Wood? backWood, Wood? topWood)
         {
             SerialNumber = serialNumber;
             Price = price;
@@ -15,10 +22,10 @@
 
         public string SerialNumber { get; private set; }
         public double Price { get; set; }
-        public string Builder { get; private set; }
+        public Builder? Builder { get; private set; }
         public string Model { get; private set; }
-        public string Type { get; private set; }
-        public string BackWood { get; private set; }
-        public string TopWood { get; private set; }
+        public GuitarType? Type { get; private set; }
+        public Wood? BackWood { get; private set; }
+        public Wood? TopWood { get; private set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using RickStore.StoreBusinessLogic.Enums;
 
 namespace RickStore.StoreBusinessLogic
 {
@@ -12,8 +13,7 @@ namespace RickStore.StoreBusinessLogic
             _guitars = new List<Guitar>();
         }
 
-        public void AddGuitar(string serialNumber, double price, string builder, string model, string type,
-            string backWood, string topWood)
+        public void AddGuitar(string serialNumber, double price, Builder? builder, string model, GuitarType? type, Wood? backWood, Wood? topWood)
         {
             var guitar = new Guitar(serialNumber, price, builder, model, type, backWood, topWood);
             _guitars.Add(guitar);
@@ -24,12 +24,13 @@ namespace RickStore.StoreBusinessLogic
             return _guitars.FirstOrDefault(guitar => guitar.SerialNumber == serialNumber);
         }
 
-        public Guitar Search(Guitar searchGuitar)
+        public List<Guitar> Search(Guitar searchGuitar)
         {
+            var machingGuitars = new List<Guitar>();
             foreach (var guitar in _guitars)
             {
-                string builder = searchGuitar.Builder;
-                if (!string.IsNullOrEmpty(builder) && builder != guitar.Builder)
+                Builder? builder = searchGuitar.Builder;
+                if (builder.HasValue && builder != guitar.Builder)
                 {
                     continue;
                 }
@@ -40,27 +41,27 @@ namespace RickStore.StoreBusinessLogic
                     continue;
                 }
 
-                string type = searchGuitar.Type;
-                if (!string.IsNullOrEmpty(type) && type != guitar.Type)
+                GuitarType? type = searchGuitar.Type;
+                if (type.HasValue && type != guitar.Type)
                 {
                     continue;
                 }
 
-                string backWood = searchGuitar.BackWood;
-                if (!string.IsNullOrEmpty(backWood) && backWood != guitar.BackWood)
+                Wood? backWood = searchGuitar.BackWood;
+                if (backWood.HasValue && backWood != guitar.BackWood)
                 {
                     continue;
                 }
 
-                string topWood = searchGuitar.TopWood;
-                if (!string.IsNullOrEmpty(topWood) && topWood != guitar.TopWood)
+                Wood? topWood = searchGuitar.TopWood;
+                if (topWood.HasValue && topWood != guitar.TopWood)
                 {
                     continue;
                 }
 
-                return guitar;
+                machingGuitars.Add(guitar);
             }
-            return null;
+            return machingGuitars;
         }
     }
 }

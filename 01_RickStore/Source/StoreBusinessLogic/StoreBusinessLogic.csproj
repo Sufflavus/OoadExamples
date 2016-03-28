@@ -40,6 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\Builder.cs" />
+    <Compile Include="Enums\GuitarType.cs" />
+    <Compile Include="Enums\Wood.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Guitar.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
