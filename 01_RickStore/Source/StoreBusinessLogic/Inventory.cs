@@ -13,9 +13,10 @@ namespace RickStore.StoreBusinessLogic
             _guitars = new List<Guitar>();
         }
 
-        public void AddGuitar(string serialNumber, double price, Builder? builder, string model, GuitarType? type, Wood? backWood, Wood? topWood)
+        public void AddGuitar(string serialNumber, double price, Builder? builder, string model, GuitarType? type, int numStrings, Wood? backWood, Wood? topWood)
         {
-            var guitar = new Guitar(serialNumber, price, builder, model, type, backWood, topWood);
+            var spec = new GuitarSpec(builder, model, type, numStrings, backWood, topWood);
+            var guitar = new Guitar(serialNumber, price, spec);
             _guitars.Add(guitar);
         }
 
@@ -24,42 +25,16 @@ namespace RickStore.StoreBusinessLogic
             return _guitars.FirstOrDefault(guitar => guitar.SerialNumber == serialNumber);
         }
 
-        public List<Guitar> Search(Guitar searchGuitar)
+        public List<Guitar> Search(GuitarSpec searchGuitar)
         {
             var machingGuitars = new List<Guitar>();
             foreach (var guitar in _guitars)
             {
-                Builder? builder = searchGuitar.Builder;
-                if (builder.HasValue && builder != guitar.Builder)
+                GuitarSpec guitarSpec = guitar.Spec;
+                if (guitarSpec.Matches(searchGuitar))
                 {
-                    continue;
+                    machingGuitars.Add(guitar);
                 }
-
-                string model = searchGuitar.Model;
-                if (!string.IsNullOrEmpty(model) && model != guitar.Model)
-                {
-                    continue;
-                }
-
-                GuitarType? type = searchGuitar.Type;
-                if (type.HasValue && type != guitar.Type)
-                {
-                    continue;
-                }
-
-                Wood? backWood = searchGuitar.BackWood;
-                if (backWood.HasValue && backWood != guitar.BackWood)
-                {
-                    continue;
-                }
-
-                Wood? topWood = searchGuitar.TopWood;
-                if (topWood.HasValue && topWood != guitar.TopWood)
-                {
-                    continue;
-                }
-
-                machingGuitars.Add(guitar);
             }
             return machingGuitars;
         }
